@@ -8,6 +8,7 @@ public interface IDbService
     List<Deck> ListDecks(Guid usedId);
     List<Card> ListCards(Guid deckId);
     void AddCard(Guid deckId, string front, string back);
+    void AddDeck(Guid userId, string name);
 }
 public class DbService : IDbService, IDisposable
 {
@@ -37,9 +38,9 @@ public class DbService : IDbService, IDisposable
     public List<Deck> ListDecks(Guid userId)
     {
         var collection = _database.GetCollection<Deck>("decks");
-        return collection.Find(d=>d.UserId == userId).ToList();
+        return collection.Find(d => d.UserId == userId).ToList();
     }
-    
+
 
     public List<Card> ListCards(Guid deckId)
     {
@@ -51,6 +52,12 @@ public class DbService : IDbService, IDisposable
     {
         var collection = _database.GetCollection<Card>("cards");
         collection.Insert(new Card { DeckId = deckId, Front = front, Back = back });
+    }
+
+    public void AddDeck(Guid userId, string name)
+    {
+        var collection = _database.GetCollection<Deck>("decks");
+        collection.Insert(new Deck { UserId = userId, Name = name });
     }
 
     #region Disposable

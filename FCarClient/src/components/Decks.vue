@@ -1,36 +1,36 @@
 <template>
     <div>
-      <h1>Decks:</h1>
       <ul>
         <li v-for="deck in decks" :key="deck.id">{{ deck.name }}</li>
       </ul>
     </div>
+
+    <div>
+      <add-deck @refreshDecks="fetchDecks" />
+    </div>
   </template>
   
   <script>
+  import AddDeck from './AddDeck.vue';
+  
   export default {
+    components: { AddDeck },
     data() {
       return {
-        decks: []
+        decks: [],
       };
     },
-    mounted() {
-      this.fetchDecks();
-    },
     methods: {
-      async fetchDecks() {
-        try {
-          const response = await fetch('https://localhost:7287/deck');
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const data = await response.json();  
-          this.decks = data;  
-        } catch (error) {
-          console.error('Fetch error:', error);
-        }
+      fetchDecks() {
+        fetch('https://localhost:7287/deck')
+          .then(response => response.json())
+          .then(data => {
+            this.decks = data;
+          });
       },
+    },
+    mounted() {
+      this.fetchDecks(); 
     },
   };
   </script>
-  
