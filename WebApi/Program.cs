@@ -10,7 +10,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IDbService, DbService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins",
+    builder => builder.WithOrigins("http://localhost:5173")
+                      .AllowAnyMethod()
+                      .AllowAnyHeader());
+});
+
 var app = builder.Build();
+
+app.UseCors("AllowSpecificOrigins");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

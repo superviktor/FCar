@@ -1,11 +1,11 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import Decks from './components/Decks.vue'
 
 </script>
 
 <template>
   <header>
-      <HelloWorld msg="FCar" />
+      <Decks />
   </header>
 </template>
 
