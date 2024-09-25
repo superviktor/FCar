@@ -1,7 +1,3 @@
 ﻿namespace WebApi.Dtos;
 
-public class DeckDto
-{
-    public string Name { get; set; }
-
-}
+public record DeckDto(Guid Id, string Name);
